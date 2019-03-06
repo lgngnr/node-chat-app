@@ -14,13 +14,13 @@ socket.on('newMessage', (data) => {
     console.log('newMessage', data);
 });
 
-socket.emit('createEmail', {
+/* socket.emit('createEmail', {
     to: "test@test.com",
     subject: "Test",
     text: "Hello World"
-});
+}); */
 
-socket.emit('createMessage', {
+/* socket.emit('createMessage', {
     from: "tom",
     text: "Hello World"
-});
+}); */

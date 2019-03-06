@@ -15,12 +15,13 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
     console.log('new user connected');
 
-    socket.emit('newEmail', {
+    //socket.emit emit an event in that opened connection
+    /* socket.emit('newEmail', {
         from: 'test@test.com',
         subject: 'Hello World',
         text: 'Hello World',
         createAt: 123
-    });
+    }); */
 
     socket.on('createEmail', (email) => {
         console.log('createEmail', email);
@@ -28,7 +29,11 @@ io.on('connection', (socket) => {
 
     socket.on('createMessage', (msg) => {
         console.log('createMessage', msg);
-        socket.emit('newMessage', {msg});
+        // io.emit emit the event in each connections
+        io.emit('newMessage', {
+            ...msg,
+            createdAt: new Date().getTime()
+        });
     });
 
     socket.on('disconnect', () => {
