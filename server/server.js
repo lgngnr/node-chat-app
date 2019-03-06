@@ -25,13 +25,13 @@ io.on('connection', (socket) => {
     });
     socket.broadcast.emit('newMessage', generateMessage('Admin', "New user join the chat app"));
 
-    socket.on('createMessage', (msg) => {
+    socket.on('createMessage', (msg, callback) => {
         console.log('createMessage', msg);
         // io.emit emit the event in each connections
         io.emit('newMessage', {
             ...msg,
             createdAt: new Date().getTime()
-        });
+        }, callback('Thi is from the server'));
         // send message to all users except who send it
         /* socket.broadcast.emit('newMessage', {
             ...msg,
