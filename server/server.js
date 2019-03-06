@@ -16,15 +16,19 @@ io.on('connection', (socket) => {
     console.log('new user connected');
 
     //socket.emit emit an event in that opened connection
-    /* socket.emit('newEmail', {
-        from: 'test@test.com',
-        subject: 'Hello World',
-        text: 'Hello World',
-        createAt: 123
-    }); */
+    socket.emit('newMessage', {
+        from: 'admin',
+        text: 'Welcome to the chat app',
+        createAt: new Date().getTime()
+    });
 
     socket.on('createEmail', (email) => {
         console.log('createEmail', email);
+    });
+    socket.broadcast.emit('newMessage', {
+        from: 'admin',
+        text: 'New user join the chat app',
+        createAt: new Date().getTime()
     });
 
     socket.on('createMessage', (msg) => {
@@ -34,6 +38,11 @@ io.on('connection', (socket) => {
             ...msg,
             createdAt: new Date().getTime()
         });
+        // send message to all users except who send it
+        /* socket.broadcast.emit('newMessage', {
+            ...msg,
+            createdAt: new Date().getTime()
+        }); */
     });
 
     socket.on('disconnect', () => {
