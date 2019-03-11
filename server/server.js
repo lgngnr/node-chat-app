@@ -31,7 +31,7 @@ io.on('connection', (socket) => {
         io.emit('newMessage', {
             ...msg,
             createdAt: new Date().getTime()
-        }, callback('Thi is from the server'));
+        }, callback());
         // send message to all users except who send it
         /* socket.broadcast.emit('newMessage', {
             ...msg,
