@@ -12,16 +12,18 @@ socket.on('newEmail', (data) => {
 
 socket.on('newMessage', (data) => {
     console.log('newMessage', data);
+    var formattedTime = moment(data.createdAt).format('h:mm a');
     let li = jQuery('<li></li>');
-    li.text(`${data.from}: ${data.text}`);
+    li.text(`${data.from} ${formattedTime}: ${data.text}`);
     jQuery('#messages').append(li);
 });
 
 socket.on('newLocationMessage', (message) => {
     console.log('newLocationMessage', message);
+    var formattedTime = moment().format('h:mm a');
     let li = jQuery('<li></li>');
-    let a = jQuery('<a target="_blank">My current location</a>');
-    li.text(`${message.from}: `);
+    let a = jQuery(`<a target="_blank">My current location</a>`);
+    li.text(`${message.from} ${formattedTime}: `);
     a.attr('href', message.url);
     li.append(a);
     jQuery('#messages').append(li);
