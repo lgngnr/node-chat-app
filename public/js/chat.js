@@ -41,13 +41,7 @@ socket.on('updateUserList', (users) => {
     jQuery('#users').html(ol);
 });
 
-socket.on('newEmail', (data) => {
-    console.log('new email', data); 
-});
-
 socket.on('newMessage', (data) => {
-    console.log('newMessage', data);
-
     var formattedTime = moment(data.createdAt).format('h:mm a');
 
     var template = jQuery('#message-template').html();
@@ -58,11 +52,6 @@ socket.on('newMessage', (data) => {
     });
     jQuery('#messages').append(html);
     scrollToBottom();
-
-    /* 
-    let li = jQuery('<li></li>');
-    li.text(`${data.from} ${formattedTime}: ${data.text}`);
-    jQuery('#messages').append(li); */
 });
 
 socket.on('newLocationMessage', (data) => {
@@ -76,27 +65,14 @@ socket.on('newLocationMessage', (data) => {
     });
     jQuery('#messages').append(html);
     scrollToBottom();
-
-    /* let li = jQuery('<li></li>');
-    let a = jQuery(`<a target="_blank">My current location</a>`);
-    li.text(`${message.from} ${formattedTime}: `);
-    a.attr('href', message.url);
-    li.append(a);
-    jQuery('#messages').append(li); */
 });
 
-/* socket.emit('createEmail', {
-    to: "test@test.com",
-    subject: "Test",
-    text: "Hello World"
-}); */
-
 socket.emit('createMessage', {
-    from: "tom",
-    text: "Hello World"
-}, (data) => {
+        from: "tom",
+        text: "Hello World"
+    }, (data) => {
         console.log('got it', data);
-    });
+});
 
 jQuery('#message-form').on('submit', (e) => {
     e.preventDefault();

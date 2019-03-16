@@ -41,12 +41,13 @@ io.on('connection', (socket) => {
     });
 
     socket.on('createMessage', (msg, callback) => {
-        console.log('createMessage', msg);
+        var user = users.getUser(socket.id);
+        if (user && isRealString(msg.text)) {
+            io.to(user.room).emit('newMessage', generateMessage(user.name, msg.text));
+        }
         // io.emit emit the event in each connections
-        io.emit('newMessage', {
-            ...msg,
-            createdAt: new Date().getTime()
-        }, callback());
+        
+        callback()
         // send message to all users except who send it
         /* socket.broadcast.emit('newMessage', {
             ...msg,
@@ -55,8 +56,10 @@ io.on('connection', (socket) => {
     });
 
     socket.on('createLocationMessage', (coords) => {
-        console.log('server received coords', coords)
-        io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude)); 
+        var user = users.getUser(socket.id);
+        if(user){
+            io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));
+        }
     });
 
     socket.on('disconnect', () => {
